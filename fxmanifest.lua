@@ -12,5 +12,6 @@ ui_page 'html/index.html'
 files {
     'html/index.html',
     'html/script.js',
-    'html/style.css'
+    'html/style.css',
+    'html/audio/press.wav'
 }

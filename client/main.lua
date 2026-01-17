@@ -1,3 +1,4 @@
+---@diagnostic disable: missing-parameter, param-type-mismatch
 local QBCore = exports['qb-core']:GetCoreObject()
 RegisterNetEvent('QBCore:Client:UpdateObject', function() QBCore = exports['qb-core']:GetCoreObject() end)
 
@@ -79,19 +80,17 @@ RegisterNUICallback('clickedButton', function(option, cb)
             cb('ok')
             return
         end
-        if data then
-            if data.params.event then
-                if data.params.isServer then
-                    TriggerServerEvent(data.params.event, data.params.args)
-                elseif data.params.isCommand then
-                    ExecuteCommand(data.params.event)
-                elseif data.params.isQBCommand then
-                    TriggerServerEvent('QBCore:CallCommand', data.params.event, data.params.args)
-                elseif data.params.isAction then
-                    data.params.event(data.params.args)
-                else
-                    TriggerEvent(data.params.event, data.params.args)
-                end
+        if data and data.params and data.params.event then
+            if data.params.isServer then
+                TriggerServerEvent(data.params.event, data.params.args)
+            elseif data.params.isCommand then
+                ExecuteCommand(data.params.event)
+            elseif data.params.isQBCommand then
+                TriggerServerEvent('QBCore:CallCommand', data.params.event, data.params.args)
+            elseif data.params.isAction then
+                data.params.event(data.params.args)
+            else
+                TriggerEvent(data.params.event, data.params.args)
             end
         end
     end
@@ -117,7 +116,6 @@ end)
 
 RegisterKeyMapping('playerFocus', 'Give Menu Focus', 'keyboard', 'LMENU')
 
--- Exports
 
 exports('openMenu', openMenu)
 exports('closeMenu', closeMenu)
